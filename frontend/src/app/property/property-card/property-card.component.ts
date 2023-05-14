@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class PropertyCardComponent implements OnInit {
 
   Property:any={
+    Id:1,
     name:'wahid house'
   }
   constructor() { }
