@@ -11,6 +11,8 @@ import { AddPropertyComponent } from './property/add-property/add-property.compo
 import { Routes,RouterModule } from '@angular/router';
 import { PropertyDetailComponent } from './property/property-detail/property-detail.component';
 import { FormsModule } from '@angular/forms';
+import { UserRegisterComponent } from './user/user-register/user-register.component';
+import { UserLoginComponent } from './user/user-login/user-login.component';
 
 const appRoutes:Routes=[
 {path:'add-property',component:AddPropertyComponent},
@@ -26,7 +28,9 @@ const appRoutes:Routes=[
     PropertyListComponent,
     NavBarComponent,
     AddPropertyComponent,
-    PropertyDetailComponent
+    PropertyDetailComponent,
+    UserRegisterComponent,
+    UserLoginComponent
   ],
   imports: [
     BrowserModule,
