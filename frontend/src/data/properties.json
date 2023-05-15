@@ -1,0 +1,41 @@
+[
+   {
+      "Id":1,
+      "SellRent":1,
+      "Name":"wahid house",
+      "Type":"House",
+      "Price":1200,
+      "Image":"prop-2.png"
+    },
+    {
+      "Id":2,
+      "SellRent":1,
+      "Name":"Hatem house",
+      "Type":"Buildng",
+      "Price":12400,
+      "Image":"prop-3.png"
+    },
+    {
+      "Id":3,
+      "SellRent":1,
+      "Name":"Mubarak house",
+      "Type":"Arc",
+      "Price":23400,
+      "Image":"prop-4.png"
+    },
+    {
+      "Id":4,
+      "SellRent":2,
+      "Name":"Verlila",
+      "Type":"House",
+      "Price":1500,
+      "Image":"prop-5.png"
+    },
+    {
+      "Id":4,
+      "SellRent":2,
+      "Name":"Keyarla",
+      "Type":"Building",
+      "Price":1700
+    }
+]
