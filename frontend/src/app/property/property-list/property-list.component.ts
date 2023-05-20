@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { HousingService } from 'src/app/services/housing.service';
-import { IProperty } from '../iproperty';
+import { IProperty } from '../../model/iproperty';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -24,6 +24,11 @@ export class PropertyListComponent implements OnInit {
       }
     this.housingServie.getAllProperties(this.sellRent).subscribe(data=>{
       this.properties=data;
+      const newProperties=JSON.parse(localStorage.getItem('newProp'));
+
+      if(newProperties.SellRent==this.sellRent){
+        this.properties=[newProperties,...this.properties]
+      }
     })
   }
 

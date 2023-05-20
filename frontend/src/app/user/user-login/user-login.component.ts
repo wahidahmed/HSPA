@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertifyService } from 'src/app/services/alertify.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-user-login',
@@ -7,9 +10,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserLoginComponent implements OnInit {
 
-  constructor() { }
+  isSubmitted:boolean=false;
+  constructor(private authService:AuthService,
+    private alertify:AlertifyService,
+    private router:Router
+    ) { }
 
   ngOnInit(): void {
   }
+  onLogin(loginForm){
+    this.isSubmitted=true;
+    if(loginForm.valid){
+      console.log(loginForm.value);
+      localStorage.setItem('token',loginForm.value.userName);
+     const token= this.authService.authUser(loginForm.value);
+    if(token){
+       this.alertify.success('login success');
+       this.router.navigate(['/'])
+      }
+      else{
+        this.alertify.error('login failed');
+      }
+      this.isSubmitted=false;
+      loginForm.resetForm();
+    }
+  }
+
 
 }

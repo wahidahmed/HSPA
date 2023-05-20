@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 // import {} from 'rxjs';
-import { IProperty } from '../property/iproperty';
+import { IProperty } from '../model/iproperty';
 import { Observable,map } from 'rxjs';
+import { Property } from '../model/property';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +27,21 @@ export class HousingService {
       return propertiesArray;
     })
    )
+  }
+
+  addProperty(property:Property){
+    localStorage.setItem('newProp',JSON.stringify(property));
+  }
+
+  newPropId(){
+    if(localStorage.getItem('PID')){
+      localStorage.setItem('PID',String( +localStorage.getItem('PID')+1 ) )
+
+      return localStorage.getItem('PID');
+    }
+    else{
+      localStorage.setItem('PID','101');
+      return 101;
+    }
   }
 }
