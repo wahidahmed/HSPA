@@ -12,32 +12,65 @@ export class HousingService {
 
   constructor(private http:HttpClient) { }
 
-  getAllProperties(sellRent:number):Observable<IProperty[]>{
-   return this.http.get('data/properties.json').pipe(
-    map((data)=>{
-      const propertiesArray:Array<IProperty>=[];
-      for (const key in data) {
-        console.log('key',key,data)
-        if(data[key].SellRent==sellRent){
-          propertiesArray.push(data[key])
-        }
 
+  getProperty(id: number) {
+    return this.getAllProperties().pipe(
+      map(propertiesArray => {
+        // console.log(propertiesArray);
+        // console.log('getProperty',propertiesArray.find(p => p.Id === id))
+        return propertiesArray.find(p => p.Id === id);
+      })
+    );
+  }
+
+
+  getAllProperties(SellRent?: number): Observable<Property[]> {
+    return this.http.get('data/properties.json').pipe(
+      map(data => {
+      const propertiesArray: Array<Property> = [];
+      const localProperties = JSON.parse(localStorage.getItem('newProp'));
+
+      if (localProperties) {
+        for (const id in localProperties) {
+          if (SellRent) {
+          if ( localProperties[id].SellRent === SellRent) {
+            propertiesArray.push(localProperties[id]);
+          }
+        } else {
+          propertiesArray.push(localProperties[id]);
+        }
+        }
       }
 
+      for (const id in data) {
+        if (SellRent) {
+          if ( data[id].SellRent === SellRent) {
+            propertiesArray.push(data[id]);
+          }
+          } else {
+            propertiesArray.push(data[id]);
+        }
+      }
       return propertiesArray;
-    })
-   )
+      })
+    );
+
+    // return this.http.get<Property[]>('data/properties.json');
   }
 
   addProperty(property:Property){
-    localStorage.setItem('newProp',JSON.stringify(property));
+    let propList=[property];
+    if(localStorage.getItem('newProp')){
+      propList=[property,...JSON.parse(localStorage.getItem('newProp'))];
+    }
+    localStorage.setItem('newProp',JSON.stringify(propList));
   }
 
   newPropId(){
     if(localStorage.getItem('PID')){
       localStorage.setItem('PID',String( +localStorage.getItem('PID')+1 ) )
 
-      return localStorage.getItem('PID');
+      return +localStorage.getItem('PID');
     }
     else{
       localStorage.setItem('PID','101');
