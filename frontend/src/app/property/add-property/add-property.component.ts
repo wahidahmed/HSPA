@@ -41,7 +41,7 @@ propertyView:IPropertyBase={
   RTM: null
 };
 
-cityList:Array<string>=[];
+cityList:Array<any>=[];
   constructor(private fb:FormBuilder,private housingService:HousingService,
   private router:Router,
   private alertify:AlertifyService
@@ -51,7 +51,8 @@ cityList:Array<string>=[];
   ngOnInit(): void {
     this.createAddPropertyForm();
     this.housingService.getAllCities().subscribe(data=>{
-      this.cityList=data
+      console.log(data)
+      this.cityList=  data
     })
   }
 

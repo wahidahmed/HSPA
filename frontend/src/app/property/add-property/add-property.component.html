@@ -109,7 +109,7 @@
 
                   >
                   <option value="">--Select--</option>
-                  <option *ngFor="let item of cityList" value="{{item}}">{{item}}</option>
+                  <option *ngFor="let item of cityList" value="{{item.id}}">{{item.name}}</option>
                   </select>
                   <div class="text-danger"
                   *ngIf="City.invalid && (nextClick || City.touched)">

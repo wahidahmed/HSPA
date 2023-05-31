@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Models
 {
-    public class City
+    public class User
     {
         public int Id { get; set; }
-        public string Name { get; set; }
         [Required]
-        public string Country { get; set; }
-        public DateTime LastUpdatedOn { get; set; }
-        public int LastUpdatedBy { get; set; }
+        public string Username { get; set; }
+        [Required]
+        public byte[] Password { get; set; }
+        public byte[] PasswordKey { get; set; }
     }
 }
