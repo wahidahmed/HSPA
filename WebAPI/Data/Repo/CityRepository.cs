@@ -34,7 +34,8 @@ namespace WebAPI.Data.Repo
 
         public async Task<IEnumerable<City>> GetCitiesAsync()
         {
-            return await dc.Cities.ToListAsync();
+            var city =await dc.Cities.ToListAsync();
+            return city;
         }
 
     }

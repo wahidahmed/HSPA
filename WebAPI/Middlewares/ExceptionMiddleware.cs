@@ -34,7 +34,7 @@ namespace WebAPI.Middlewares
             catch (Exception ex)
             {
                 ApiError response;
-                HttpStatusCode statusCode ;
+                HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
                 string message;
                 var exceptionType = ex.GetType();
                 if (exceptionType == typeof(UnauthorizedAccessException))

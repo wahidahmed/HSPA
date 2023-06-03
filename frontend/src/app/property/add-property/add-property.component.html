@@ -31,13 +31,15 @@
                 <div class="form-group col-12">
                   <p>BHK</p>
                   <div class="btn-group" btnRadioGroup
-                  [(ngModel)]="propertyView.BHK"
+
                   formControlName="BHK"
 
                   >
                       <label
                       *ngFor="let item of [1,2,3,4]"
-                      class="btn btn-outline-primary mr-2" btnRadio={{item}} role="button" name="sellRent">
+                      class="btn btn-outline-primary mr-2" btnRadio={{item}} role="button" name="sellRent"
+                      (click)="propertyView.bhk=item"
+                      >
                         {{item}}
                       </label>
                   </div>
@@ -48,7 +50,7 @@
 
                 <div class="form-group col-12">
                   <p>Property Type</p>
-                  <div class="btn-group" btnRadioGroup  [(ngModel)]="propertyView.PType"
+                  <div class="btn-group" btnRadioGroup  [(ngModel)]="propertyView.propertyType"
                   formControlName="PType"
                   >
                       <label
@@ -66,7 +68,7 @@
                 <div class="form-group col-12">
                   <p>Furnished Type</p>
                   <div class="btn-group" btnRadioGroup
-                  [(ngModel)]="propertyView.FType"
+                  [(ngModel)]="propertyView.furnishingType"
                   formControlName="FType"
 
                   >
@@ -91,7 +93,9 @@
                   class="form-control"
                   ngModel
                   formControlName="Name"
-                  [(ngModel)]="propertyView.Name"
+
+                  #propName
+                  (keyup)="propertyView.name=propName.value"
                   >
 
                   <div class="text-danger"
@@ -104,7 +108,7 @@
                 <div class="form-group col-12">
                   <label>City</label>
                   <select type="text" class="form-control"
-                  [(ngModel)]="propertyView.City"
+                  [(ngModel)]="propertyView.city"
                   formControlName="City"
 
                   >
@@ -130,7 +134,7 @@
                 <div class="form-group col-12">
                   <label *ngIf="SellRent.value==1">Price (in USD)</label>
                   <label *ngIf="SellRent.value==2">Rent (in USD)</label>
-                  <input type="text" class="form-control" formControlName="Price" [(ngModel)]="propertyView.Price"
+                  <input type="text" class="form-control" formControlName="Price" [(ngModel)]="propertyView.price"
                   >
 
                   <div *ngIf="Price.invalid &&(Price.touched || nextClick)"class="text-danger">
@@ -159,7 +163,7 @@
                 <div class="form-group col-12">
                   <label>Built Area (in Sqr Feet)</label>
                   <input type="text" class="form-control"
-                  [(ngModel)]="propertyView.BuiltArea"
+                  [(ngModel)]="propertyView.builtArea"
                   formControlName="BuiltArea"
 
                   >

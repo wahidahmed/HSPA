@@ -26,44 +26,45 @@ export class HousingService {
       map(propertiesArray => {
         // console.log(propertiesArray);
         // console.log('getProperty',propertiesArray.find(p => p.Id === id))
-        return propertiesArray.find(p => p.Id === id);
+        return propertiesArray.find(p => p.id === id);
       })
     );
   }
 
 
   getAllProperties(SellRent?: number): Observable<Property[]> {
-    return this.http.get('data/properties.json').pipe(
-      map(data => {
-      const propertiesArray: Array<Property> = [];
-      const localProperties = JSON.parse(localStorage.getItem('newProp'));
 
-      if (localProperties) {
-        for (const id in localProperties) {
-          if (SellRent) {
-          if ( localProperties[id].SellRent === SellRent) {
-            propertiesArray.push(localProperties[id]);
-          }
-        } else {
-          propertiesArray.push(localProperties[id]);
-        }
-        }
-      }
+    return this.http.get<Property[]>(this.baseUrl+`/property/list/${SellRent}`)
+    // return this.http.get('data/properties.json').pipe(
+    //   map(data => {
+    //   const propertiesArray: Array<Property> = [];
+    //   const localProperties = JSON.parse(localStorage.getItem('newProp'));
 
-      for (const id in data) {
-        if (SellRent) {
-          if ( data[id].SellRent === SellRent) {
-            propertiesArray.push(data[id]);
-          }
-          } else {
-            propertiesArray.push(data[id]);
-        }
-      }
-      return propertiesArray;
-      })
-    );
+    //   if (localProperties) {
+    //     for (const id in localProperties) {
+    //       if (SellRent) {
+    //       if ( localProperties[id].SellRent === SellRent) {
+    //         propertiesArray.push(localProperties[id]);
+    //       }
+    //     } else {
+    //       propertiesArray.push(localProperties[id]);
+    //     }
+    //     }
+    //   }
 
-    // return this.http.get<Property[]>('data/properties.json');
+    //   for (const id in data) {
+    //     if (SellRent) {
+    //       if ( data[id].SellRent === SellRent) {
+    //         propertiesArray.push(data[id]);
+    //       }
+    //       } else {
+    //         propertiesArray.push(data[id]);
+    //     }
+    //   }
+    //   return propertiesArray;
+    //   })
+    // );
+
   }
 
   addProperty(property:Property){

@@ -11,6 +11,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using WebAPI.Dtos;
+using WebAPI.Errors;
+using WebAPI.Extensions;
 using WebAPI.Interfaces;
 using WebAPI.Models;
 
@@ -32,23 +34,40 @@ namespace WebAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult>Login(LoginReqDto loginReqDto)
         {
-            var user =await unitOfWork.userRepository.Authenticate(loginReqDto.Username, loginReqDto.Password);
-
+            ApiError apiError = new ApiError();
+            var user =await unitOfWork.UserRepository.Authenticate(loginReqDto.Username, loginReqDto.Password);
+            if (user == null)
+            {
+                apiError.ErrorCode = Unauthorized().StatusCode;
+                apiError.ErrorMessage = "Invalid username or password";
+                apiError.ErrorDetails = "This error apear when provided user id and password does not exist";
+                return Unauthorized(apiError);
+            }
             var res = mapper.Map<LoginResDto>(user);
             res.Token = CreateJWT(user);
-            if (user == null)
-                return Unauthorized();
+           
             return Ok(res);
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(LoginReqDto loginReqDto)
         {
-            if(await unitOfWork.userRepository.UserAlreadyExists(loginReqDto.Username))
+            ApiError apiError = new ApiError();
+            //here IsEmpty is an extention method. we create this method to use instead of string.IsNullOfEmpty
+            if (loginReqDto.Username.IsEmpty()||loginReqDto.Password.IsEmpty())
             {
-                return BadRequest("User already exist");
+                apiError.ErrorCode = BadRequest().StatusCode;
+                apiError.ErrorMessage = "username and password cannot be blank";
+                return BadRequest(apiError);
             }
-            unitOfWork.userRepository.Register(loginReqDto.Username, loginReqDto.Password);
+            if(await unitOfWork.UserRepository.UserAlreadyExists(loginReqDto.Username))
+            {
+              
+                apiError.ErrorCode = BadRequest().StatusCode;
+                apiError.ErrorMessage = "Invalid username or password";
+                return BadRequest(apiError);
+            }
+            unitOfWork.UserRepository.Register(loginReqDto.Username, loginReqDto.Password);
             await unitOfWork.SaveAsync();
             return StatusCode(201);
         }
@@ -70,7 +89,7 @@ namespace WebAPI.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires=DateTime.UtcNow.AddMinutes(1),
+                Expires=DateTime.UtcNow.AddHours(1),
                 SigningCredentials=signingCredantials
             };
 
